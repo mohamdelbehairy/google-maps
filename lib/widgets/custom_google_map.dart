@@ -14,17 +14,33 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void initState() {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
+
     super.initState();
+  }
+
+  late GoogleMapController googleMapController;
+
+  @override
+  void dispose() {
+    googleMapController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: GoogleMap(
-            cameraTargetBounds: CameraTargetBounds(LatLngBounds(
-                southwest: const LatLng(31.056050531009273, 30.665672582225334),
-                northeast:
-                    const LatLng(31.193722432145453, 31.207086622541325))),
+            onMapCreated: (controller) {
+              googleMapController = controller;
+              initMapStyle();
+            },
             initialCameraPosition: initialCameraPosition));
+  }
+
+  void initMapStyle() async {
+    var nightMapStyle = await DefaultAssetBundle.of(context)
+        .loadString('assets/json/night_map_style.json');
+
+    googleMapController.setMapStyle(nightMapStyle);
   }
 }
