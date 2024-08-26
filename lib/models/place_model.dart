@@ -16,7 +16,7 @@ List<PlaceModel> places = [
   PlaceModel(
       id: 2,
       name: "مستشفى كفرالشيخ الجامعي",
-      latlng: const LatLng(31.10107070544538, 30.95572315845787)),
+      latlng: const LatLng(31.100732848618637, 30.95092048322454)),
   PlaceModel(
       id: 3,
       name: "قراجة",

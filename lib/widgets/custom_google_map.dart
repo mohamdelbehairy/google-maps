@@ -55,9 +55,12 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     // markers.add(myMarker);
 
     var myMarker = places
-        .map((e) =>
-            Marker(markerId: MarkerId(e.id.toString()), position: e.latlng))
+        .map((e) => Marker(
+            infoWindow: InfoWindow(title: e.name),
+            markerId: MarkerId(e.id.toString()),
+            position: e.latlng))
         .toSet();
 
-    markers.addAll(myMarker);}
+    markers.addAll(myMarker);
+  }
 }
