@@ -35,6 +35,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GoogleMap(
+            zoomControlsEnabled: false,
             markers: markers,
             onMapCreated: (controller) {
               googleMapController = controller;
