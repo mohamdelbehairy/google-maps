@@ -48,19 +48,18 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     googleMapController.setMapStyle(nightMapStyle);
   }
 
-  void initMarkers() {
-    // var myMarker = const Marker(
-    //     markerId: MarkerId('1'),
-    //     position: LatLng(31.110648030353488, 30.93923980939196));
-    // markers.add(myMarker);
-
+  void initMarkers() async {
+    var customMarkerItem = await BitmapDescriptor.asset(
+        const ImageConfiguration(), 'assets/images/icons8-marker-50.png');
     var myMarker = places
         .map((e) => Marker(
+            icon: customMarkerItem,
             infoWindow: InfoWindow(title: e.name),
             markerId: MarkerId(e.id.toString()),
             position: e.latlng))
         .toSet();
 
     markers.addAll(myMarker);
+    setState(() {});
   }
 }
