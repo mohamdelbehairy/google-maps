@@ -14,7 +14,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void initState() {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
-
+    initMarkers();
     super.initState();
   }
 
@@ -26,10 +26,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     super.dispose();
   }
 
+  Set<Marker> markers = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: GoogleMap(
+            markers: markers,
             onMapCreated: (controller) {
               googleMapController = controller;
               initMapStyle();
@@ -42,5 +45,12 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         .loadString('assets/json/night_map_style.json');
 
     googleMapController.setMapStyle(nightMapStyle);
+  }
+
+  void initMarkers() {
+    var myMarker = const Marker(
+        markerId: MarkerId('1'),
+        position: LatLng(31.110648030353488, 30.93923980939196));
+    markers.add(myMarker);
   }
 }
