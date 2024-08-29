@@ -17,7 +17,8 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void initState() {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
-    initMarkers();
+    // initMarkers();
+    initPolyLines();
     super.initState();
   }
 
@@ -30,6 +31,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 
   Set<Marker> markers = {};
+  Set<Polyline> polylines = {};
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         body: GoogleMap(
             zoomControlsEnabled: false,
             markers: markers,
+            polylines: polylines,
             onMapCreated: (controller) {
               googleMapController = controller;
               initMapStyle();
@@ -76,5 +79,15 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
     markers.addAll(myMarker);
     setState(() {});
+  }
+
+  void initPolyLines() {
+    var polyline = const Polyline(polylineId: PolylineId("1"), points: [
+      LatLng(31.140924852458674, 30.93348721147604),
+      LatLng(31.090790537070333, 31.005576033302255),
+      LatLng(31.068467664448924, 30.93709552829787),
+      LatLng(31.0137693995647, 31.006040741882686)
+    ]);
+    polylines.add(polyline);
   }
 }
