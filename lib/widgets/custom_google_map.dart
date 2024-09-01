@@ -38,6 +38,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
             onMapCreated: (controller) {
               googleMapController = controller;
               initMapStyle();
+              location.onLocationChanged.listen((locationData) {});
             },
             initialCameraPosition: initialCameraPosition));
   }
@@ -64,15 +65,15 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void checkAndRequestLocationPermission() async {
     var permissionStatus = await location.hasPermission();
     if (permissionStatus == PermissionStatus.denied) {
-     permissionStatus = await location.requestPermission();
-     if(permissionStatus != PermissionStatus.granted) {
-       log('location permission is not granted');
-     }
+      permissionStatus = await location.requestPermission();
+      if (permissionStatus != PermissionStatus.granted) {
+        log('location permission is not granted');
+      }
     }
   }
 }
 
-// inquire about location service (need it to enable if disabled requested to enable it)
+// inquire about location service
 // request permission from user
 // get location
 // display location
