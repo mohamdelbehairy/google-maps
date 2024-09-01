@@ -58,7 +58,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         log('location service is not enabled');
       }
     }
-
     checkAndRequestLocationPermission();
   }
 
