@@ -19,7 +19,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
     location = Location();
-    checkAndRequestLocationService();
+    updateMyLocation();
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     googleMapController.setMapStyle(nightMapStyle);
   }
 
-  void checkAndRequestLocationService() async {
+  Future<void> checkAndRequestLocationService() async {
     var isServiceEnabled = await location.serviceEnabled();
 
     if (!isServiceEnabled) {
@@ -60,7 +60,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     }
   }
 
-  void checkAndRequestLocationPermission() async {
+  Future<void> checkAndRequestLocationPermission() async {
     var permissionStatus = await location.hasPermission();
     if (permissionStatus == PermissionStatus.denied) {
       permissionStatus = await location.requestPermission();
@@ -69,8 +69,15 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       }
     }
   }
+
   void getLocationData() {
     location.onLocationChanged.listen((locationData) {});
+  }
+
+  void updateMyLocation() async {
+    await checkAndRequestLocationService();
+    await checkAndRequestLocationPermission();
+    getLocationData();
   }
 }
 
