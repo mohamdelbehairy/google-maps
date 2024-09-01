@@ -15,12 +15,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
 
-    initCircle();
     super.initState();
   }
 
   late GoogleMapController googleMapController;
-  Set<Circle> circles = {};
   @override
   void dispose() {
     googleMapController.dispose();
@@ -31,7 +29,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GoogleMap(
-            circles: circles,
             zoomControlsEnabled: false,
             onMapCreated: (controller) {
               googleMapController = controller;
@@ -45,14 +42,5 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         .loadString('assets/json/night_map_style.json');
 
     googleMapController.setMapStyle(nightMapStyle);
-  }
-
-  void initCircle() {
-    var circle =  Circle(
-        radius: 1000,
-        fillColor: Colors.black.withOpacity(0.5),
-        center: const LatLng(31.116667700333192, 30.943138008578337),
-        circleId: const CircleId("1"));
-    circles.add(circle);
   }
 }
