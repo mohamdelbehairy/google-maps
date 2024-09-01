@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class CustomGoogleMap extends StatefulWidget {
   const CustomGoogleMap({super.key});
@@ -10,11 +13,13 @@ class CustomGoogleMap extends StatefulWidget {
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   late CameraPosition initialCameraPosition;
+  late Location location;
   @override
   void initState() {
     initialCameraPosition = const CameraPosition(
         zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
-
+    location = Location();
+    checkAndRequestLocationService();
     super.initState();
   }
 
@@ -43,4 +48,20 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
     googleMapController.setMapStyle(nightMapStyle);
   }
+
+  void checkAndRequestLocationService() async {
+    var isServiceEnabled = await location.serviceEnabled();
+
+    if (!isServiceEnabled) {
+      isServiceEnabled = await location.requestService();
+      if (!isServiceEnabled) {
+        log('location service is not enabled');
+      }
+    }
+  }
 }
+
+// inquire about location service (need it to enable if disabled requested to enable it)
+// request permission from user
+// get location
+// display location
