@@ -16,12 +16,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   @override
   void initState() {
     initialCameraPosition = const CameraPosition(
-        zoom: 12, target: LatLng(31.110648030353488, 30.93923980939196));
+        zoom: 1, target: LatLng(31.110648030353488, 30.93923980939196));
     locationService = LocationService();
     updateMyLocation();
     super.initState();
   }
 
+  bool isFirstCall = true;
   GoogleMapController? googleMapController;
   Set<Marker> markers = {};
 
@@ -54,18 +55,23 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       locationService.getRealTimeLocation((locationData) {
         setMyLocationMarker(locationData);
 
-        setMyCameraPosition(locationData);
+        updateMyCameraPosition(locationData);
       });
     }
   }
 
-  void setMyCameraPosition(LocationData locationData) {
-    var cameraPosition = CameraPosition(
-        zoom: 15,
-        target: LatLng(locationData.latitude!, locationData.longitude!));
-
-    googleMapController
-        ?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  void updateMyCameraPosition(LocationData locationData) {
+    if (isFirstCall) {
+      CameraPosition cameraPosition = CameraPosition(
+          target: LatLng(locationData.latitude!, locationData.longitude!),
+          zoom: 17);
+      googleMapController
+          ?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      isFirstCall = false;
+    } else {
+      googleMapController?.animateCamera(CameraUpdate.newLatLng(
+          LatLng(locationData.latitude!, locationData.longitude!)));
+    }
   }
 
   void setMyLocationMarker(LocationData locationData) {
