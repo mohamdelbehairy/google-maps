@@ -74,7 +74,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void getLocationData() {
     location.changeSettings(distanceFilter: 2);
     location.onLocationChanged.listen((locationData) {
-      log('lat: ${locationData.latitude}, lng: ${locationData.longitude}');
       var cameraPosition = CameraPosition(
           zoom: 15,
           target: LatLng(locationData.latitude!, locationData.longitude!));
@@ -95,12 +94,6 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var hasPermission = await checkAndRequestLocationPermission();
     if (hasPermission) {
       getLocationData();
-      log('location data updated');
     }
   }
 }
-
-// inquire about location service
-// request permission from user
-// get location
-// display location
