@@ -24,11 +24,13 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 
   GoogleMapController? googleMapController;
+  Set<Marker> markers = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: GoogleMap(
+            markers: markers,
             zoomControlsEnabled: false,
             onMapCreated: (controller) {
               googleMapController = controller;
@@ -72,9 +74,17 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   void getLocationData() {
     location.onLocationChanged.listen((locationData) {
       var cameraPosition = CameraPosition(
-          zoom: 12,
+          zoom: 15,
           target: LatLng(locationData.latitude!, locationData.longitude!));
-      googleMapController?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+      var myMarker = Marker(
+          markerId: const MarkerId('myMarker'),
+          position: LatLng(locationData.latitude!, locationData.longitude!));
+
+      markers.add(myMarker);
+      setState(() {});
+      googleMapController
+          ?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     });
   }
 
